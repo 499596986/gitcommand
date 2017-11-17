@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+ </head>
+ <body>
+  
+
+
+新建一个文件夹learngit，然后建一个文件readme.txt;用git init可以创建一个空的.git的文件然后用git命令就可以管理github上的项目了
+在git bash上要先用命令  git config --global user.email "you@example.com"
+			git config --global user.name "you name";
+来连接的。==>把一个文件放在git仓库需两步
+
+1、git add readme.txt,file2.txt;	==>把文件添加到仓库
+
+2、git commit -m "wrote a readme file";	===》把文件提交到仓库
+其中：git commit -m 后面输入的是本次提交的说明,可以输入任意内容。这样从历史记录中能方便的找到改动的记录
+
+若邮箱初始化过了，要修改可以用：
+git config --global --replace-all user.email "输入您的邮箱";
+git config --global --replace-all user.email "输入您的用户名";
+==》
+{	//这种没用的话就只能用上面那种了
+   git config --global user.name "输入你的用户名"
+   git config --global user.email "输入你的邮箱" 	
+}
+
+git status  :查看结果==》可以告诉你仓库里面什么文件修改了。
+git diff readme.txt===>查看具体修改了什么内容
+git diff HEAD -- readme.txt  :命令可以查看工作区和版本库里面最新版本的区别
+
+
+
+
+git log		:命令显示从最近到最远的提交日志。
+git log --pretty=oneline :显示最近到最远的提交日志，可以显示id的信息。可以显示少一些信息。
+
+git reset --hard HEAD^ :表示回滚到上一个版本。HEAD^^表示回滚前两个目录。往上100个用HEAD~100这样写
+但是回滚后,之后的会没有了。除非找到对应版本的id（从git log --pretty=oneline上来的），git reset --hard id
+
+git reflog	:这个命令也可以找到你的所有操作，可以找到id，然后可以 git reset --hard id会滚动指定的文件。
+
+
+mkdir	:创建
+cd	:进入
+pwd	:显示当前目录
+
+git init:把这个目录变成git可以管理的仓库
+ls  -ah :可以列出里面所有的文件
+git config --list  :可以查看你有没有初始化话	"邮箱"  和  "用户名"  等参数
+rm  filename	:删除没用的文件，删除的是工作区的文件
+
+git ls-files	:查看版本库中有哪些文件
+
+git rm file	:删除版本库中的文件，删除后最好提交这样还可以找回来 git commit...
+git commit -m "..."
+
+
+
+
+git checkout -- file	//在没有提交和添加之前，可以把工作区的修改全部撤销，注意  --的两边都是有空格的。不然不能运行
+			//回到最近一次 git commit或git add（暂存区）时的状态。
+
+git reset HEAD file	//可以把暂存区的目录退回到工作区（HEAD表示最新的版本）
+
+总结：
+1、回滚操作（时间穿梭）：
+git reset --hard id(或者是HEAD^)
+(1)、HEAD指向的版本是当前的版本,因此，Git允许我们在历史版本之间穿梭。使用命令 git reset --hard  commit_id;
+(2)、可以用git log查看提交历史记录,以便确定要回退到哪个版本
+(3)、回滚后，历史记录会消失。但是还可以用 git reflog来查看历史。获得id，确定我们要回到哪个版本
+
+
+2.远程仓库
+步骤：由于本地Git仓库和GitHub仓库之间的传输是通过SSH加密的，所以，需要一点设置：
+一、创建SSH Key 。在用户的主目录下查看有没有.ssh目录,如果有，再看看这个目录下有没有 id_rsa和 id_rsa.phb这两个文件,如果有就直接跳到下一步
+如果没有，就在命令行里创建ssH Key:  ssh-keygen -t rsa -C "youemail@example.com";你需要把邮箱地址换成你自己的邮件地址。
+其中， id_rsa.pub是公匙，可以放心告诉比人
+
+二、登录 GitHub,打开“Add SSh Key”,把 id_rsa.pub文件的内容复制进去。==》说明你的电脑已经和github认证了
+
+三、在github上新建一个仓库，名字和你的本地的一样（例如 learngit），新建的仓库GitHub告诉我们，可以从这个仓库克隆出新的仓库，
+也可以把一个已有的本地仓库与之关联，然后，把本地仓库的内容推送到GitHub仓库。
+
+四、本地仓库和github上的关联：在git-base上运行：git remote add origin git@github.com:499596986/learngit.git(githun仓库的路径)
+这样你本地的仓库和github上的仓库就关联了。
+
+五、可以把本地仓库的所有内容推送到github这个远程库上，运行命令：git push -u origin master ==>实际上是把当前分支 master 推送到远程。由于远程库是空的，我们第一次推送 master 分支时，加上了-u 参数。
+
+六、从现在起，你的githun仓库就有东西了，不是空的。从本地要推送就 可以用 git push origin master ==>不要加 -u 了。
+
+总结：关联一个远程库：使用命令 git remote add origin git@server-name:path/repo-name.git;
+关联后，使用 git push -u origin master,第一次推送master分支的所有内容( 第一次要加-u );
+此后每次本地提交，就可以用 git push origin master 推送最新的修改。
+
+3、克隆远程库文件
+git clone git@github.com:499596986/gitskills.git	//例如这样写==》这样局会克隆下来
+
+
+4、分支管理
+git checkout -b dev		//创建dev分支，然后切换到dev分支。
+(git checkout命令加上 -b 参数表示创建并切换,相当于下面两条命令
+     git branch dev	//创建分支
+     git checkout dev	//切换到新分支
+)
+
+git branch	//查看当前分支，会列出所有的分支
+==》然后我就可以正常提交分支上的内容了,例如：修改readme.txt的内容，然后
+git add readme.txt=>git commit -m "branch test"; 
+==若我们切换回 master分支的内容，则readme.txt刚才添加的内容不在了,
+
+
+==》合并分支 git merge dev;
+==》删除分支 git branch -d dev
+总结命令：
+查看分支：git branch
+创建分支：git branch <name>
+切换分支：git checkout <name>
+创建分支+切换分支：git checkout -b <name>
+合并某分支到当前分支：git merge <name>
+删除分支：git branch -d <name>
+
+
+==>分支提交，主支也提交，可能会产生冲突,用 git status可以查看冲突文件。冲突后要手动解决
+git 用<<<<<<,======,>>>>>标出不同分支的内容e。
+git log --graph --pretty=oneline --abbrev-commit	//可以查看分支合并情况
+
+
+5、分支管理策略
+git用Fast forward模式，会丢掉分支信息。
+
+git merge --no-ff -m "merge width no-ff" dev	//--no-ff参数表示禁用 fast forward,会保留历史分支信息
+
+git stash	===》可以存储工作现场
+git stash list	===》查看存储的工作现场在什么地方
+git stash apply=>恢复不删除
+git stash drop==》删除
+
+git stash pop==>恢复的时候就删除
+小结：修复bug时，我们会通过创建新的bug分支来进行恢复,然后合并,最后删除。
+
+6、多人协作
+git remote -v	//可以查看远程库更详细的信息。
+
+推送分支：
+git push origin dev	//
+
+
+7、标签管理
+1.创建标签
+先切换到要打标签的分支上=》git checkout master=>git tag v1.0
+git tag=>查看所有标签
+
+git log --pretty=oneline --abbrev-commit ==>先找到历史提交的commit id
+git tag v0.9 commitid====>给历史记录打标签
+
+git tag:查看标签
+git show <tagname>===>查看标签信息==》例如：git show v0.9;
+
+git tag -a v0.1 -m "version 0.1 released"  commitid ==>
+带有说明的标签，-a指定标签名，-m指定说明文字
+
+git tag -d v0.1===>标签打错了，也可以删除
+git push origin <tagname>===>推送标签到远程=》例如：git push origin v1.0
+git push origin  --tags===>一次性推送全部尚未推送到远程的本地标签
+
+
+如果标签已经推送在远程,要删除远程标签就麻烦一点==》
+先从本地删除（git tag -d v0.9）;然后从远程删除 git push origin:refs/tags/v0.9 
+
+小结：git push origin <tagname>==>推送一个本地标签
+      git push origin --tags   ==>推送全部未推送过的本地标签
+      git tag -d <tagname>     ==>可以删除一个本地标签
+      git push origin:refs/tags/<tagname>==>删除一个远程标签
+
+
+
+
+
+
+
+git checkout -b dev origin/dev===>克隆之后要在dev分支上开发的话,要先创建一下。
+
+1..git的目录：是git用来跟踪管理版本库的
+2.新建的.txt文件最好不是用记事本，用notepad++,因为记事本存的是十六进制的。
+
+
+删除远程仓库的文件：
+git rm -r -- cached "filename";		//-r是递归,目录的时候有用,把文件从缓存中删除
+git commit -m "删除注释"			//注释
+git push origin master				//再次推送就可以把远程的删除
+
+
+删除远程分支：===》git push <远程主机名> <本地分支名>:<远程分支名>
+git push origin :master==>如果省略本地分支名,则表示删除指定的远程分支,因为这等同于	git push origin --delete master  ==>推送一个空的本地分支到远程分支。
+
+
+常用命令：
+git show #		==>显示某次提交的内容
+git add .		===>将所有修改过的工作文件提交到暂存区
+
+
+
+ </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
