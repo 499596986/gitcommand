@@ -25,15 +25,6 @@ git rm filename ===>删除暂存区和分支上的文件,工作区的也删除
 2、git commit -m "wrote a readme file";	===》把文件提交到仓库
 其中：git commit -m 后面输入的是本次提交的说明,可以输入任意内容。这样从历史记录中能方便的找到改动的记录
 
-若邮箱初始化过了，要修改可以用：
-git config --global --replace-all user.email "输入您的邮箱";
-git config --global --replace-all user.email "输入您的用户名";
-==》
-{	//这种没用的话就只能用上面那种了
-   git config --global user.name "输入你的用户名"
-   git config --global user.email "输入你的邮箱" 	
-}
-
 git status  :查看结果==》可以告诉你仓库里面什么文件修改了。
 git diff readme.txt===>查看具体修改了什么内容
 git diff HEAD -- readme.txt  :命令可以查看工作区和版本库里面最新版本的区别
@@ -213,6 +204,12 @@ git branch -a	===>查看远程分支
 1.git push origin --delete tag master
 2.git tag -d <tagname>
   git push origin :refs/tags/<tagname>
+
+
+修改配置的用户名和账号：==》好像也只有这种方法
+git config --unset --global user.name	===>先删除
+git config --global user.name "123天上的风" ===》后配置
+
 
 
 常用命令：
