@@ -206,7 +206,7 @@ git branch -a	===>查看远程分支
   git push origin :refs/tags/<tagname>
 
 
-修改配置的用户名和账号：==》好像也只有这种方法
+修改配置的用户名和账号：==》好像也只有这种方法,
 git config --unset --global user.name	===>先删除
 git config --global user.name "123天上的风" ===》后配置
 
@@ -223,6 +223,50 @@ git reset --.		===>从暂存区恢复到工作文件
 git diff <filename>	===>比较工作区和暂存区的差异
 git diff --staged	===>比较暂存区和版本库差异
 git diff --cached	===>比较暂存区和版本库的差异
+
+
+
+remote:
+git remote==>列出所有远程主机
+
+git remote -v===>可以查看远程主机的网址
+得出  origin  git@github.com:jquery/jquery.git(fetch)
+	  origin  git@github.com:jquery/jquery.git(push)
+表示当前只有一台远程主机,叫做origin以及它的网址。
+克隆版本库的时候,所使用的远程主机自动被Git命名为 origin ,
+如果想用其他主机名,则用 git clone 命令的  -o 选项来指定。
+
+git remote show <主机名>	===》可以查看该主机的详细信息
+git remote add <主机名> <网址> ===》用于添加远程主机
+git remote rm <主机名>		===》用于删除远程主机
+git remote rename <原主机名> <新主机名> ===》用于远程主机的改名
+
+
+
+git fetch/git pull的区别：
+git fetch <远程主机名> <分支名>	===》取回特定分支的更新。例如：git fetch origin master
+这边取回的数据要用"远程主机名/分支名"的形式读取。
+git branch -r	===>可以用来查看远程分支
+git branch -a	===>可以查看所有分支
+取回更新后==》可以用 git merge 或者是 git rebase命令 来合并分支。
+例如：git merge origin origin/master
+
+git pull <远程主机名> <远程分支名>:<本地分支名>==》取回特定分支的更新,再与本地的指定分支合并。
+可以手动建立追踪关系==》git branch --set-upstream master origin/next
+(表示 指定 master 分支追踪 origin/next 分支)
+1。如果当前分支与远程分支存在追踪关系,git pull 就可以省略 远程分支名。例如：git pull origin
+2。如果当前分支只有一个追踪分支,连远程主机名都可以省略。例如：git pull
+3。如果合并需要采用 rebase 模式,可以采用 --rebase 选项,
+例如： git pull --rebase <远程主机名> <远程分支名>:<本地分支名>
+4。如果远程主机删除了某个分支,git pull 不会删除对应的本地分支,
+如果 加上参数 -p ,例如：git pull -p =>则会在本地删除远程已经删除的分支。
+
+总结：git fetch 是只取回更新,不合并,要合并的话要用 git merge origin/master的形式。
+git pull ==>取回数据，就直接更新了。
+
+git push <远程主机名> <本地分支名>:<远程分支名>
+
+
 
 
  </body>
